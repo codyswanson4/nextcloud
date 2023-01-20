@@ -1,0 +1,26 @@
+---
+- name: Ensure required packages
+  ansible.builtin.package:
+    name: 
+      - nginx
+      - podman
+      - container-selinux
+      - setools
+      - acl
+    state: latest
+  vars:
+    ansible_become: yes
+- name: Ensure System Configuration
+  include_tasks: tasks/system-configuration.yml
+  vars:
+    ansible_become: yes
+- name: Ensure User Configuration
+  include_tasks: tasks/user-configuration.yml
+  vars:
+    ansible_become: yes
+    ansible_become_user: nextcloud
+      #- name: Ensure Application is Configured
+      #  include_tasks: tasks/application-configuration.yml
+      #  vars:
+      #    ansible_become: yes
+      #    ansible_become_user: nextcloud

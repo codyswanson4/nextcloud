@@ -1,0 +1,21 @@
+[Unit]
+Description=Podman Pod for Nextcloud services
+Documentation=man:podman-generate-systemd(1)
+Wants=network-online.target
+After=network-online.target
+Before=nextcloud-web.service nextcloud-redis.service nextcloud-mysql.service
+
+[Service]
+Environment=PODMAN_SYSTEMD_UNIT=%n
+Restart=never
+TimeoutStopSec=70
+ExecStartPre=/bin/rm -f %t/pod-nextcloud.pid %t/pod-nextcloud.pod-id
+ExecStartPre=/usr/bin/podman pod create --infra-conmon-pidfile %t/pod-nextcloud.pid --pod-id-file %t/pod-nextcloud.pod-id --name nextcloud -p {{listen_ip}}:{{listen_http_port}}:80 -p {{listen_ip}}:{{listen_https_port}}:443 --replace --exit-policy=stop
+ExecStart=/usr/bin/podman pod start --pod-id-file %t/pod-nextcloud.pod-id
+ExecStop=/usr/bin/podman pod stop --ignore --pod-id-file %t/pod-nextcloud.pod-id -t 10
+ExecStopPost=/usr/bin/podman pod rm --ignore -f --pod-id-file %t/pod-nextcloud.pod-id
+PIDFile=%t/pod-nextcloud.pid
+Type=forking
+  
+[Install]
+WantedBy=default.target

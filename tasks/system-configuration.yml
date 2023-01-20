@@ -1,0 +1,39 @@
+---
+- name: Ensure Nextcloud Group
+  ansible.builtin.group:
+    name: nextcloud
+    state: present
+- name: Add User
+  ansible.builtin.user:
+    group: nextcloud
+    home: "{{home_dir}}"
+    name: nextcloud
+    state: present
+- name: Ensure home directory permissions
+  ansible.builtin.file:
+    group: nextcloud
+    mode: 0770
+    owner: nextcloud
+    path: "{{home_dir}}"
+    state: directory
+- name: Ensure data directory permissions
+  ansible.builtin.file:
+    group: nextcloud
+    mode: 0770
+    owner: nextcloud
+    path: "{{data_dir}}"
+    state: directory
+- name: Ensure user service location
+  ansible.builtin.file:
+    group: nextcloud
+    mode: 0770
+    owner: nextcloud
+    path: "{{home_dir}}/.config/systemd/user"
+    state: directory
+- name: Check if user linger is enabled
+  stat:
+    path: "/var/lib/systemd/linger/nextcloud"
+  register: user_lingering
+- name: Enable lingering if needed
+  command: "loginctl enable-linger nextcloud"
+  when: not user_lingering.stat.exists

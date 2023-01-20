@@ -1,0 +1,4 @@
+---
+nextcloud_version: "24"
+home_dir: "/opt/nextcloud"
+data_dir: "/srv/nextcloud"

@@ -1,0 +1,8 @@
+---
+- name: Download archive
+- name: Extract archive
+- name: Ensure postgres is running
+- name: Restore postgres db
+  $ psql -f db.out postgres
+- name: Restore env file
+- name: Restore
