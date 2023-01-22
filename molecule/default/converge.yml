@@ -6,4 +6,6 @@
       include_role:
         name: "codyswanson4.nextcloud"
       vars:
-        admin_password: "testpass123!"
+        nextcloud_admin_password: "testpass123!"
+        nextcloud_trusted_domains: localhost
+        listen_ip: 127.0.0.1

@@ -1,4 +1,9 @@
 ---
-nextcloud_version: "24"
+nextcloud_version: "stable"
+nextcloud_admin_username: "admin"
+
+listen_http_port: 1080
+listen_https_port: 1443
+
 home_dir: "/opt/nextcloud"
 data_dir: "/srv/nextcloud"

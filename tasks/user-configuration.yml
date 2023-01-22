@@ -16,13 +16,6 @@
     setype: container_file_t
     state: directory
   with_fileglob: "{{home_dir}}/.local/share/containers/storage/volumes/*"
-- name: Ensure nginx configuration
-  ansible.builtin.template:
-    src: templates/nginx.conf.j2
-    dest: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nginx.conf"
-    owner: nextcloud
-    group: nextcloud
-    mode: 0660
 - name: Ensure systemd services
   ansible.builtin.template:
     src: "{{item}}"
@@ -32,6 +25,26 @@
     mode: 0660
   with_fileglob: "templates/*.service.j2"
   register: unit_install
+- name: Ensure nginx configuration
+  ansible.builtin.template:
+    src: templates/nginx.conf.j2
+    dest: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nginx.conf"
+    owner: nextcloud
+    group: nextcloud
+    mode: 0660
+- name: Ensure private key exists in nginx volume
+  community.crypto.openssl_privatekey:
+    path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud.key"
+    size: 4096
+    mode: 0600
+    type: RSA
+- name: Ensure self signed certificate is present
+  community.crypto.x509_certificate:
+    path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud-ss.crt"
+    privatekey_path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud.key"
+    provider: selfsigned
+    selfsigned_not_after: "+1095d"
+    mode: 0644
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     scope: user

@@ -23,7 +23,7 @@ ExecStart=/usr/bin/podman run \
   --replace \
   --name=nextcloud-mysql \
   -e MYSQL_RANDOM_ROOT_PASSWORD="yes" \
-  -e MYSQL_PASSWORD="{{lookup('ansible.builtin.password', 'mysql_nextcloud'}}" \
+  -e MYSQL_PASSWORD="{{lookup('ansible.builtin.password', 'mysql_nextcloud')}}" \
   -e MYSQL_DATABASE="nextcloud" \
   -e MYSQL_USER="nextcloud" \
   -v nextcloud-mysql:/var/lib/mysql \
