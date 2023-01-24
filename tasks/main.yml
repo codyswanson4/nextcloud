@@ -20,8 +20,3 @@
   vars:
     ansible_become: yes
     ansible_become_user: nextcloud
-      #- name: Ensure Application is Configured
-      #  include_tasks: tasks/application-configuration.yml
-      #  vars:
-      #    ansible_become: yes
-      #    ansible_become_user: nextcloud
