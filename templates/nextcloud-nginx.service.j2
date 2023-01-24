@@ -24,7 +24,9 @@ ExecStart=/usr/bin/podman run \
   --replace \
   --name=nextcloud-nginx \
   -v nextcloud-fpm:/var/www/html:z \
-  -v nextcloud-nginx:/etc/nginx:z \
+  -v {{home_dir}}/.config/nginx.conf:/etc/nginx/nginx.conf:z \
+  -v {{home_dir}}/.config/nextcloud.key:/etc/nginx/nextcloud.key:z \
+  -v {{home_dir}}/.config/nextcloud-ss.crt:/etc/nginx/nextcloud-ss.crt:z \
   --userns=host \
   docker.io/nginx:stable
 ExecStop=/usr/bin/podman stop --ignore --cidfile=%t/%n.ctr-id

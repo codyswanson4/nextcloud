@@ -6,7 +6,6 @@
     - fpm
     - mysql
     - redis
-    - nginx
 - name: Ensure correct volume permissions 
   ansible.builtin.file:
     group: nextcloud
@@ -28,20 +27,20 @@
 - name: Ensure nginx configuration
   ansible.builtin.template:
     src: templates/nginx.conf.j2
-    dest: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nginx.conf"
+    dest: "{{home_dir}}/.config/nginx.conf"
     owner: nextcloud
     group: nextcloud
     mode: 0660
 - name: Ensure private key exists in nginx volume
   community.crypto.openssl_privatekey:
-    path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud.key"
+    path: "{{home_dir}}/.config/nextcloud.key"
     size: 4096
     mode: 0600
     type: RSA
 - name: Ensure self signed certificate is present
   community.crypto.x509_certificate:
-    path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud-ss.crt"
-    privatekey_path: "{{home_dir}}/.local/share/containers/storage/volumes/nextcloud-nginx/_data/nextcloud.key"
+    path: "{{home_dir}}/.config/nextcloud-ss.crt"
+    privatekey_path: "{{home_dir}}/.config/nextcloud.key"
     provider: selfsigned
     selfsigned_not_after: "+1095d"
     mode: 0644

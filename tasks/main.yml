@@ -2,7 +2,6 @@
 - name: Ensure required packages
   ansible.builtin.package:
     name: 
-      - nginx
       - podman
       - container-selinux
       - setools
