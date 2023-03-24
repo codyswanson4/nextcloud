@@ -1,6 +1,6 @@
 # Nextcloud Podman
 
-This role will deploy a running, unconfigured [Nextcloud](https://nextcloud.com/) server using a rootless Podman Pod with container-separated redis cache and mysql database. Self-signed certificates are used by default in order to facilitate the recommended deployment discussed below.
+This role will deploy a running, unconfigured [Nextcloud](https://nextcloud.com/) server using a rootless Podman Pod with container-separated redis cache and mysql database. Self-signed certificates are used by default in order to facilitate the recommended deployment discussed in the Deployment Methods section.
 
 ## Justification
 
