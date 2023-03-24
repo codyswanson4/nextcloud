@@ -48,11 +48,11 @@ This project welcomes contributions aligned with the stated project purpose. Ple
 ## Example Usage
 
 Use of this role requires including the role via Ansible's include_role statement and specifying required variables in a variable source such as below;
-`
+```
 - name: "Include codyswanson4.nextcloud"
     include_role:
         name: "codyswanson4.nextcloud"
-`
+```
 See molecule/default/converge.yml for test usage
 
 ## License
