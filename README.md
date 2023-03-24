@@ -45,9 +45,15 @@ System software dependencies are installed on playbook run.
 
 This project welcomes contributions aligned with the stated project purpose. Please open an issue to track the change intended as well as get feedback from the project owner on mergability.
 
-## Example Playbook
+## Example Usage
 
-See molecule/default/converge.yml for example usage
+Use of this role requires including the role via Ansible's include_role statement and specifying required variables in a variable source such as below;
+`
+- name: "Include codyswanson4.nextcloud"
+    include_role:
+        name: "codyswanson4.nextcloud"
+`
+See molecule/default/converge.yml for test usage
 
 ## License
 
