@@ -15,6 +15,13 @@
     setype: container_file_t
     state: directory
   with_fileglob: "{{home_dir}}/.local/share/containers/storage/volumes/*"
+- name: Ensure correct volume selinux type
+  ansible.builtin.file:
+    path: "{{item}}"
+    setype: container_file_t
+    state: directory
+  with_fileglob: "{{home_dir}}/.local/share/containers/storage/volumes/*"
+  when: ansible_os_family == "RedHat"
 - name: Ensure systemd services
   ansible.builtin.template:
     src: "{{item}}"
@@ -31,12 +38,24 @@
     owner: nextcloud
     group: nextcloud
     mode: 0660
-- name: Ensure private key exists in nginx volume
+- name: Ensure correct nginx config selinux type
+  ansible.builtin.file:
+    path: "{{home_dir}}/.config/nginx.conf"
+    setype: container_file_t
+    state: directory
+  when: ansible_os_family == "RedHat"
+- name: Ensure private key
   community.crypto.openssl_privatekey:
     path: "{{home_dir}}/.config/nextcloud.key"
     size: 4096
     mode: 0600
-    type: RSA
+    type: RSA 
+- name: Ensure private key selinux type
+  ansible.builtin.file:
+    path: "{{home_dir}}/.config/nextcloud.key"
+    setype: container_file_t
+    state: directory
+  when: ansible_os_family == "RedHat"
 - name: Ensure self signed certificate is present
   community.crypto.x509_certificate:
     path: "{{home_dir}}/.config/nextcloud-ss.crt"
@@ -44,6 +63,12 @@
     provider: selfsigned
     selfsigned_not_after: "+1095d"
     mode: 0644
+- name: Ensure self signed certificate selinux type
+  ansible.builtin.file:
+    path: "{{home_dir}}/.config/nextcloud-ss.crt"
+    setype: container_file_t
+    state: directory
+  when: ansible_os_family == "RedHat"
 - name: Reload systemd daemon
   ansible.builtin.systemd:
     scope: user

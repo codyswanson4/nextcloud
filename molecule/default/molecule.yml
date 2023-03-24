@@ -6,6 +6,8 @@ driver:
 platforms:
   - name: instance
     box: fedora/37-cloud-base
+  - name: instance
+    box: ubuntu/jammy64
 provisioner:
   name: ansible
 verifier:

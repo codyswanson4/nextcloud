@@ -1,16 +1,20 @@
 ---
-- name: Ensure required packages
+- name: Ensure generic required packages
   ansible.builtin.package:
     name: 
       - podman
-      - container-selinux
-      - setools
       - acl
-      - cronie
       - python3-cryptography
     state: latest
   vars:
     ansible_become: yes
+- name: Ensure RHEL family specific packages
+  ansible.builtin.package:
+    name:
+      - container-selinux
+      - cronie
+      - setools
+  when: ansible_os_family == "RedHat"
 - name: Ensure System Configuration
   include_tasks: tasks/system-configuration.yml
   vars:
