@@ -47,7 +47,7 @@ This project welcomes contributions aligned with the stated project purpose. Ple
 
 ## Example Usage
 
-Use of this role requires including the role via Ansible's include_role statement and specifying required variables in a variable source such as below;
+Use of this role requires including the role via Ansible's include_role statement and specifying required variables in a variable source. The example below is a basic include instruction.
 ```
 - name: "Include codyswanson4.nextcloud"
     include_role:
